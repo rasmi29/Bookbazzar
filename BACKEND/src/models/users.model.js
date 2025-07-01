@@ -39,6 +39,12 @@ const userSchema = new mongoose.Schema(
     resetPasswordExpires: {
       type: Date,
     },
+    cart:[
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CartItem",
+      }
+    ]
   },
   {
     timestamps: true,

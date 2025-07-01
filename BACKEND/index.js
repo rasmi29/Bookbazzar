@@ -8,6 +8,7 @@ import bookRoutes from "./src/routes/books.routes.js";
 import reviewRoutes from "./src/routes/review.route.js";
 import orderRoutes from "./src/routes/order.routes.js";
 import paymentRoutes from "./src/routes/payments.routes.js";
+import cartRoutes from "./src/routes/cart.routes.js";
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use("/api/v1/books",bookRoutes);
 app.use("/api/v1/reviews",reviewRoutes);
 app.use("/api/v1/orders",orderRoutes);
 app.use("/api/v1/payments",paymentRoutes);
+app.use("/api/v1/cart", cartRoutes);
 
 //listening on port
 app.listen(port,()=>{

@@ -1,46 +1,65 @@
 import Order from "../models/orders.model.js";
+import User from "../models/users.model.js";
+import { CartItem } from "../models/cart_items.model.js";
 
-// Place an order
+// Place an order (pulling from user's cart)
 const placeOrder = async (req, res) => {
   try {
-    //fetch order details from request body
-    const {
-      orderItems,
-      shippingAddress,
-      paymentMethod,
-      itemsPrice,
-      shippingPrice,
-      totalPrice,
-    } = req.body;
+    const userId = req.user._id;
 
-    // Validate required fields
-    if (!orderItems || orderItems.length === 0) {
-      return res.status(400).json({ message: "No order items provided" });
+    // 1. Fetch user with populated cart
+    const user = await User.findById(userId).populate({
+      path: "cart",
+      populate: {
+        path: "book",
+        select: "title price",
+      },
+    });
+
+    if (!user || user.cart.length === 0) {
+      return res.status(400).json({
+        message: "Cart is empty. Cannot place order.",
+        success: false,
+      });
     }
 
-    if (!shippingAddress || !paymentMethod || !itemsPrice || !totalPrice) {
-      return res
-        .status(400)
-        .json({ message: "Missing required order information" });
+    // 2. Build order items
+    const orderItems = user.cart.map((item) => ({
+      book: item.book._id,
+      quantity: item.quantity,
+      price: item.book.price,
+    }));
+
+    // 3. Calculate pricing
+    const itemsPrice = orderItems.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+    const shippingPrice = itemsPrice > 500 ? 0 : 40;
+    const totalPrice = itemsPrice + shippingPrice;
+
+    // 4. Optional: get shipping & payment method from body
+    const { shippingAddress, paymentMethod } = req.body;
+
+    if (!shippingAddress || !paymentMethod) {
+      return res.status(400).json({
+        message: "Shipping address and payment method are required",
+        success: false,
+      });
     }
 
-    // Check for user authentication (in case middleware fails)
-    if (!req.user || !req.user._id) {
-      return res.status(401).json({ message: "User not authenticated" });
-    }
-
+    // 5. Define order status
     let orderStatus = "placed";
     let paymentStatus = "pending";
     let isPaid = false;
 
-    // If online payment, set status to pending_payment
     if (paymentMethod === "online") {
       orderStatus = "pending_payment";
     }
 
-    // Create a new order
+    // 6. Create order
     const order = await Order.create({
-      user: req.user._id,
+      user: userId,
       orderItems,
       shippingAddress,
       paymentMethod,
@@ -52,7 +71,10 @@ const placeOrder = async (req, res) => {
       paymentStatus,
     });
 
-    
+    // 7. Clear user's cart
+    await CartItem.deleteMany({ user: userId });
+    user.cart = [];
+    await user.save();
 
     res.status(201).json({
       message: "Order placed successfully",
@@ -67,6 +89,7 @@ const placeOrder = async (req, res) => {
     });
   }
 };
+
 
 //list all orders
 const listOrders = async (req, res) => {
