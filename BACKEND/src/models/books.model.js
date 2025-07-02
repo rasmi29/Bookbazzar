@@ -69,6 +69,14 @@ const bookSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isPopular:{
+        type: Boolean,
+        default: false
+    },
+    isNewArrival: {
+        type: Boolean,
+        default: false
+    },
     ratings: {
         average: {
             type: Number,
@@ -81,6 +89,10 @@ const bookSchema = new mongoose.Schema({
             default: 0
         }
     },
+    pdfLink:{
+        type:String,
+        
+    }
     
 }, {
     timestamps: true
