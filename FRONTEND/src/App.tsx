@@ -1,14 +1,26 @@
 import "./App.css";
-import { ThreeDCardDemo } from "./components/aceternity/3Dcard/3d-card-component.tsx";
-import { AnimatedTestimonialsDemo } from "./components/aceternity/Animated testimonials/animated-testimonials-component.tsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SpotlightNewDemo } from "./components/aceternity/Spotlight/spotlight-new-component.tsx";
+import { SignupFormDemo } from "./components/aceternity/SignUp/signup-component.tsx";
+import { LoginFormDemo } from "./components/aceternity/SignUp/login-component.tsx";
+import About from "./components/component_page/About.tsx";
+import Contact from "./components/component_page/Contact.tsx";
+import { NavbarDemo } from "./components/aceternity/Navbar/resizable-navbar-component.tsx";
 
 function App() {
   return (
-    <>
-      <h1 className="text-4xl font-bold">Book Bazaar</h1>
-      <ThreeDCardDemo />
-      <AnimatedTestimonialsDemo />
-    </>
+          
+    
+    <Router>
+      <NavbarDemo />
+      <Routes>
+        <Route path="/" element={<SpotlightNewDemo />} />
+        <Route path="/signup" element={<SignupFormDemo />} />
+        <Route path="/login" element={<LoginFormDemo />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </Router>
   );
 }
 
