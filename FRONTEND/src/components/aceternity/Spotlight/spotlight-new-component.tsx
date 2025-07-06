@@ -2,6 +2,7 @@
 import { Spotlight } from "./spotlight-new.tsx";
 import { TextRevealCardPreview } from "../Text Reveal/text-reveal-card-component.tsx";
 import Hero2 from "../../component_page/Hero2.tsx";
+import Hero3 from "../../component_page/Hero3.tsx";
 
 export function SpotlightNewDemo() {
   return (
@@ -21,6 +22,7 @@ export function SpotlightNewDemo() {
         </div>
       </div>
       <Hero2 />
+      <Hero3 />
     </>
   );
 }

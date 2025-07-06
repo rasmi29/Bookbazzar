@@ -19,7 +19,7 @@ export function NavbarDemo() {
   const navItems = [
     {
       name: "All Books",
-      link: "#AllBooks",
+      link: "/AllBooks",
     },
     
     {
@@ -28,11 +28,11 @@ export function NavbarDemo() {
     },
     {
       name: "About",
-      link: "#about",
+      link: "/about",
     },
     {
       name: "Contact",
-      link: "#contact",
+      link: "/contact",
     },
     
   ];

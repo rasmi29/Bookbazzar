@@ -1,4 +1,5 @@
 import { cn } from "../../lib/utils";
+import { HoverBorderGradient } from "../aceternity/Hover Border Gradient/hover-border-gradient.tsx";
 import { HoverEffect } from "../aceternity/Card Hover Effect/card-hover-effect";
 import { ColourfulText } from "../aceternity/Colorful Text/colourful-text";
 
@@ -21,9 +22,18 @@ const Hero2 = () => {
           Explore Books by
           <ColourfulText text=" Categories." />
         </h1>
+        {/* cards  */}
         <div className="max-w-5xl mx-auto px-8">
           <HoverEffect items={projects} />
         </div>
+        {/* Button */}
+        <HoverBorderGradient
+            containerClassName="rounded-full"
+            as="button"
+            className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2"
+          >
+            <span>Explore All Categories</span>
+          </HoverBorderGradient>
       </div>
     </div>
   );

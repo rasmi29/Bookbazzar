@@ -4,7 +4,7 @@ const About = () => {
   return (
     <>
 
-      <div className="flex flex-col md:flex-row md:flex-wrap justify-center items-center gap-8 w-[80%] mx-auto mt-24 ">
+      <div className="flex flex-col md:flex-row md:flex-wrap justify-center items-center gap-8 w-[80%] mx-auto mt-32 mb-20">
         <CardSpotlight className=" w-96 h-80  relative p-10 rounded-xl">
           <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 blur-xl opacity-35 z-[-1]"></div>
           <p className="text-xl font-bold relative z-20 mt-2 text-white">

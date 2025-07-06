@@ -1,27 +1,50 @@
-import { useNavigate } from "react-router-dom";
 import React from "react";
-import { Label } from "./label.tsx";
-import { Input } from "./input.tsx";
-import { cn } from "../../../lib/utils";
-import { ColourfulText } from "../Colorful Text/colourful-text.tsx";
-import { BackgroundLines } from "../Background Lines/background-lines.tsx";
+import { cn } from "../../lib/utils.ts";
+import { useNavigate } from "react-router-dom";
+import { Label } from "../aceternity/SignUp/label.tsx";
+import { Input } from "../aceternity/SignUp/input.tsx";
+import { ColourfulText } from "../aceternity/Colorful Text/colourful-text.tsx";
+import { BackgroundLines } from "../aceternity/Background Lines/background-lines.tsx";
+const apiUrl = import.meta.env.VITE_serverURL;
 
-export function SignupFormDemo() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+ export function LoginForm() {
+  const navigate = useNavigate();
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email");
+    const password = formData.get("password");
+    try {
+      const response = await fetch(`${apiUrl}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate("/");
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      
+    }
   };
 
-  const navigate = useNavigate();
   return (
     <>
-
       <div className="items-center  w-[80%] mx-auto flex flex-col lg:flex-row">
         <div className="w-[50%]">
           <BackgroundLines className="flex items-center justify-center w-full  px-4">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white relative z-2 font-sans">
-              Let the journey begin.
-              <br /> <ColourfulText text="Sign up. Dive in." />
+              Books. Imagination. You.
+              <br /> <ColourfulText text="Let’s reconnect." />
             </h1>
           </BackgroundLines>
         </div>
@@ -30,12 +53,9 @@ export function SignupFormDemo() {
             <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200 text-center">
               Welcome to Book Bazzar
             </h2>
+            <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
             <form className="my-8" onSubmit={handleSubmit}>
-              <LabelInputContainer className="mb-4">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Durden" type="text" />
-              </LabelInputContainer>
               <LabelInputContainer className="mb-4">
                 <Label htmlFor="email">Email Address</Label>
                 <Input
@@ -50,26 +70,25 @@ export function SignupFormDemo() {
               </LabelInputContainer>
 
               <button
-                className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+                className=" mt-8 group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
                 type="submit"
               >
-                Sign up &rarr;
+                Login &rarr;
                 <BottomGradient />
               </button>
 
-              <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
-
-              <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300 text-center">
-                Have an account, &nbsp;
+              <p className="mt-8 max-w-sm text-sm text-neutral-600 dark:text-neutral-300 text-center">
+                Don't have an account, &nbsp;
                 <span
-                  className="font-bold underline cursor-pointer
-"
-                  onClick={() => navigate("/login")}
+                  className="font-bold underline cursor-pointer"
+                  onClick={() => navigate("/signup")}
                 >
                   click here
                 </span>{" "}
-                &nbsp; to Login.
+                &nbsp; to Signup
               </p>
+
+              <div className="mt-10 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
             </form>
           </div>
         </div>

@@ -1,26 +1,27 @@
 import { useNavigate } from "react-router-dom";
-import { ColourfulText } from "../Colorful Text/colourful-text.tsx";
-
 import React from "react";
-import { Label } from "./label.tsx";
-import { Input } from "./input.tsx";
-import { cn } from "../../../lib/utils";
-import { BackgroundLines } from "../Background Lines/background-lines.tsx";
+import { Label } from "../aceternity/SignUp/label.tsx";
+import { Input } from "../aceternity/SignUp/input.tsx";
+import { cn } from "../../lib/utils.ts";
+import { ColourfulText } from "../aceternity/Colorful Text/colourful-text.tsx";
+import { BackgroundLines } from "../aceternity/Background Lines/background-lines.tsx";
 
-export function LoginFormDemo() {
+export function SignupForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
   };
+
   const navigate = useNavigate();
   return (
     <>
+
       <div className="items-center  w-[80%] mx-auto flex flex-col lg:flex-row">
         <div className="w-[50%]">
           <BackgroundLines className="flex items-center justify-center w-full  px-4">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white relative z-2 font-sans">
-              Books. Imagination. You.
-              <br /> <ColourfulText text="Let’s reconnect." />
+              Let the journey begin.
+              <br /> <ColourfulText text="Sign up. Dive in." />
             </h1>
           </BackgroundLines>
         </div>
@@ -29,9 +30,12 @@ export function LoginFormDemo() {
             <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200 text-center">
               Welcome to Book Bazzar
             </h2>
-            <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
             <form className="my-8" onSubmit={handleSubmit}>
+              <LabelInputContainer className="mb-4">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" placeholder="Durden" type="text" />
+              </LabelInputContainer>
               <LabelInputContainer className="mb-4">
                 <Label htmlFor="email">Email Address</Label>
                 <Input
@@ -46,25 +50,26 @@ export function LoginFormDemo() {
               </LabelInputContainer>
 
               <button
-                className=" mt-8 group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+                className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
                 type="submit"
               >
-                Login &rarr;
+                Sign up &rarr;
                 <BottomGradient />
               </button>
 
-              <p className="mt-8 max-w-sm text-sm text-neutral-600 dark:text-neutral-300 text-center">
-                Don't have an account, &nbsp;
+              <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
+
+              <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300 text-center">
+                Have an account, &nbsp;
                 <span
-                  className="font-bold underline cursor-pointer"
-                  onClick={() => navigate("/signup")}
+                  className="font-bold underline cursor-pointer
+"
+                  onClick={() => navigate("/login")}
                 >
                   click here
                 </span>{" "}
-                &nbsp; to Signup
+                &nbsp; to Login.
               </p>
-
-              <div className="mt-10 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
             </form>
           </div>
         </div>
