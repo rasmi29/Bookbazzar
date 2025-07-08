@@ -5,16 +5,28 @@ import { Label } from "../aceternity/SignUp/label.tsx";
 import { Input } from "../aceternity/SignUp/input.tsx";
 import { ColourfulText } from "../aceternity/Colorful Text/colourful-text.tsx";
 import { BackgroundLines } from "../aceternity/Background Lines/background-lines.tsx";
+import { useRecoilState } from "recoil";
+import authState from "../../state/authState.ts";
+import isLoadingState from "../../state/isLoading.ts";
 const apiUrl = import.meta.env.VITE_serverURL;
 
-
- export function LoginForm() {
+export function LoginForm() {
   const navigate = useNavigate();
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const [auth, setAuth] = useRecoilState(authState);
+  const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
+  
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const email = formData.get("email")?.toString().trim();
+    const password = formData.get("password")?.toString().trim();
+
+    if(!email || !password){
+      alert("all fields are required ");
+      return;
+    }
+    setIsLoading(true);
     try {
       const response = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
@@ -28,19 +40,26 @@ const apiUrl = import.meta.env.VITE_serverURL;
       const data = await response.json();
 
       if (response.ok) {
+        setAuth({
+          isLoggedIn:true,
+          email:data.user?.email,
+        });
         navigate("/");
       } else {
         alert(data.message || "Login failed");
       }
     } catch (error) {
-      
+      console.error("Login Error:", error);
+      alert("Something went wrong. Please try again.");
+    }finally{
+      setIsLoading(false);
     }
   };
 
   return (
     <>
       <div className="items-center  w-[80%] mx-auto flex flex-col lg:flex-row">
-        <div className="w-[50%]">
+        <div className="w-[50%] z-[-1]">
           <BackgroundLines className="flex items-center justify-center w-full  px-4">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white relative z-2 font-sans">
               Books. Imagination. You.
@@ -49,31 +68,44 @@ const apiUrl = import.meta.env.VITE_serverURL;
           </BackgroundLines>
         </div>
         <div className="w-[50%]">
-          <div className="shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black mt-10">
+          <div className="shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black/10 mt-10">
             <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200 text-center">
               Welcome to Book Bazzar
             </h2>
             <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
-            <form className="my-8" onSubmit={handleSubmit}>
+            <form className="my-8 z-50" onSubmit={handleSubmit} >
               <LabelInputContainer className="mb-4">
                 <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
                   placeholder="projectmayhem@fc.com"
                   type="email"
+                  name="email"
+                  autoComplete="email"
+                  required
+                  
                 />
               </LabelInputContainer>
               <LabelInputContainer className="mb-4">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" placeholder="••••••••" type="password" />
+                <Input
+                  id="password"
+                  placeholder="••••••••"
+                  type="password"
+                  name="password"
+                  autoComplete="current-password"
+                  required
+                  
+                />
               </LabelInputContainer>
 
               <button
                 className=" mt-8 group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
                 type="submit"
-              >
-                Login &rarr;
+              > 
+                {isLoading ? "Logging in..." : "Login →"}
+                
                 <BottomGradient />
               </button>
 
@@ -84,7 +116,7 @@ const apiUrl = import.meta.env.VITE_serverURL;
                   onClick={() => navigate("/signup")}
                 >
                   click here
-                </span>{" "}
+                </span>
                 &nbsp; to Signup
               </p>
 

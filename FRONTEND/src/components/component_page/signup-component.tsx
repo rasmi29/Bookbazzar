@@ -17,7 +17,7 @@ export function SignupForm() {
     <>
 
       <div className="items-center  w-[80%] mx-auto flex flex-col lg:flex-row">
-        <div className="w-[50%]">
+        <div className="w-[50%] z-[-1]">
           <BackgroundLines className="flex items-center justify-center w-full  px-4">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white relative z-2 font-sans">
               Let the journey begin.
@@ -26,7 +26,7 @@ export function SignupForm() {
           </BackgroundLines>
         </div>
         <div className="w-[50%]">
-          <div className="shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black mt-10">
+          <div className="shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black/10 mt-10">
             <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200 text-center">
               Welcome to Book Bazzar
             </h2>

@@ -5,9 +5,11 @@ import { SignupForm } from "./components/component_page/signup-component.tsx";
 import { LoginForm } from "./components/component_page/login-component.tsx";
 import About from "./components/component_page/About.tsx";
 import Contact from "./components/component_page/Contact.tsx";
-import { NavbarDemo } from "./components/aceternity/Navbar/resizable-navbar-component.tsx";
+import { NavbarDemo } from "./components/component_page/Navbar.tsx";
 import AllBooks from "./components/component_page/AllBooks.tsx";
 import Footer from "./components/component_page/Footer.tsx";
+import Thankyou from "./components/component_page/Thankyou.tsx";
+import Profile from "./components/component_page/Profile.tsx";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/allBooks" element={<AllBooks />} />
+        <Route path="/thankyou" element={<Thankyou />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Footer />
     </Router>

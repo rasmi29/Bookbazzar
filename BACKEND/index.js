@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-    origin:process.env.BASE_URL,
+    origin:process.env.FRONTEND,
     credentials:true,
     methods:['get','post','delete','options'],
     allowedHeaders:['Content-Type','Authorization']

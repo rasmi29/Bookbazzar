@@ -52,31 +52,31 @@ const projects = [
     title: "Romance",
     description:
       "Feel the emotions of love, heartbreak, and connection through beautifully written romantic journeys.",
-    link: "https://google.com",
+    link: "https://facebook.com",
   },
   {
     title: "Fantasy",
     description:
       "Step into realms of magic, mythical creatures, and epic adventures that stir the imagination.",
-    link: "https://google.com",
+    link: "https://myntra.com",
   },
   {
     title: "Business & Finance",
     description:
       "Gain insights from top minds on building wealth, leadership, strategy, and entrepreneurial success.",
-    link: "https://google.com",
+    link: "https://youtube.com",
   },
   {
     title: "Science & Technology",
     description:
       "Discover the latest innovations and timeless concepts that shape the modern and future world.",
-    link: "https://google.com",
+    link: "https://lala.com",
   },
 
   {
     title: "Academic & Study",
     description:
       "Support your educational goals with textbooks, reference guides, and study materials across subjects.",
-    link: "https://google.com",
+    link: "https://kala.com",
   },
 ];
