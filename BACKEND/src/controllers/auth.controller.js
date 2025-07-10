@@ -61,7 +61,7 @@ async function registerUser(req, res) {
       from: process.env.MAIL_SENDER_ID,
       to: user.email,
       subject: "User Verification",
-      text: `Welcome to  our company ! Please verify yourself by clicking upon the  link ${process.env.BASE_URL}/api/v1/auth/verify?token=${token}`,
+      text: `Welcome to  our company ! Please verify yourself by clicking upon the  link ${process.env.FRONTEND}/api/v1/auth/verify?token=${token}`,
     };
 
     const info = await transporter.sendMail(mailObject);

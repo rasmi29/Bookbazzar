@@ -5,17 +5,54 @@ import { Input } from "../aceternity/SignUp/input.tsx";
 import { cn } from "../../lib/utils.ts";
 import { ColourfulText } from "../aceternity/Colorful Text/colourful-text.tsx";
 import { BackgroundLines } from "../aceternity/Background Lines/background-lines.tsx";
+import { useRecoilState } from "recoil";
+import authState from "../../state/authState.ts";
+import isLoadingState from "../../state/isLoading.ts";
+const apiUrl = import.meta.env.VITE_serverURL;
 
-export function SignupForm() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+function SignupForm() {
+  const navigate = useNavigate();
+  const [auth, setAuth] = useRecoilState(authState);
+  const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
+    try {
+      const formData = new FormData(e.currentTarget);
+      const email = formData.get("email")?.toString().trim();
+      const name = formData.get("name")?.toString().trim();
+      const password = formData.get("password")?.toString().trim();
+
+      //validation
+      if (!email || !password || !name) {
+        alert("all fields are required ");
+        return;
+      }
+      setIsLoading(true);
+      const response = await fetch(`${apiUrl}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ email, password, name }),
+      });
+
+      const data = await response.json();
+      if (data.success) {        
+        navigate("/verify");
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const navigate = useNavigate();
   return (
     <>
-
       <div className="items-center  w-[80%] mx-auto flex flex-col lg:flex-row">
         <div className="w-[50%] z-[-1]">
           <BackgroundLines className="flex items-center justify-center w-full  px-4">
@@ -34,7 +71,7 @@ export function SignupForm() {
             <form className="my-8" onSubmit={handleSubmit}>
               <LabelInputContainer className="mb-4">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Durden" type="text" />
+                <Input id="name" placeholder="Durden" type="text" name="name"/>
               </LabelInputContainer>
               <LabelInputContainer className="mb-4">
                 <Label htmlFor="email">Email Address</Label>
@@ -42,11 +79,12 @@ export function SignupForm() {
                   id="email"
                   placeholder="projectmayhem@fc.com"
                   type="email"
+                  name="email"
                 />
               </LabelInputContainer>
               <LabelInputContainer className="mb-4">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" placeholder="••••••••" type="password" />
+                <Input id="password" placeholder="••••••••" type="password" name="password"/>
               </LabelInputContainer>
 
               <button
@@ -100,3 +138,5 @@ const LabelInputContainer = ({
     </div>
   );
 };
+
+export default SignupForm;
